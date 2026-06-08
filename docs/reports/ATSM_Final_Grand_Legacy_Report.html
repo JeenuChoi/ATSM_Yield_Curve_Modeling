@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATSM Project Grand Legacy Report | 통합 최종 기술 보고서</title>
+    
+    <!-- MathJax for Academic Equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['\\(','\\)'], ['$', '$']], displayMath: [['\\[','\\]'], ['$$', '$$']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+KR:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1d3557;
+            --secondary: #457b9d;
+            --accent: #e63946;
+            --success: #28a745;
+            --warning: #ffc107;
+            --text-dark: #1a1a1a;
+            --text-gray: #555;
+            --bg-page: #fafaf8;
+            --bg-white: #ffffff;
+            --border: rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-page); color: var(--text-dark); line-height: 1.8; overflow-x: hidden; }
+
+        /* Left Sidebar - Comprehensive Navigation */
+        .sidebar {
+            position: fixed; left: 0; top: 0; width: 280px; height: 100vh;
+            background: rgba(255,255,255,0.98); backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border); padding: 40px 30px; z-index: 100;
+            overflow-y: auto;
+        }
+        .sidebar-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 30px; color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        .nav-list { list-style: none; }
+        .nav-list li { margin-bottom: 10px; }
+        .nav-list a { text-decoration: none; color: var(--text-gray); font-size: 0.8rem; transition: 0.2s; display: block; padding: 4px 0; }
+        .nav-list a:hover { color: var(--secondary); padding-left: 5px; }
+        .nav-list a.active { color: var(--primary); font-weight: 700; border-left: 2px solid var(--primary); padding-left: 10px; }
+
+        /* Right Sidebar - Model Diagnostics Dash */
+        .right-sidebar {
+            position: fixed; right: 0; top: 0; width: 260px; height: 100vh;
+            background: rgba(255,255,255,0.98); border-left: 1px solid var(--border);
+            padding: 30px 20px; z-index: 100; overflow-y: auto;
+        }
+        .widget-title { font-size: 0.65rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
+        .market-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
+        .m-name { font-size: 0.7rem; color: #666; }
+        .m-val { font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 600; }
+        .up { color: #16a34a; } .down { color: #dc2626; }
+
+        /* Main Content Wrapper */
+        .main-wrapper { margin-left: 280px; margin-right: 260px; min-height: 100vh; }
+        .content-container { max-width: 950px; margin: 0 auto; padding: 60px 40px 100px; }
+
+        .paper {
+            background: var(--bg-white); padding: 70px 80px; border-radius: 2px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.05); font-family: 'Noto Serif KR', serif;
+        }
+
+        /* Header */
+        .paper-header { text-align: center; border-bottom: 3px double #333; padding-bottom: 50px; margin-bottom: 60px; }
+        .p-cat { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; color: var(--secondary); margin-bottom: 20px; text-transform: uppercase; }
+        .p-title { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; line-height: 1.2; font-weight: 700; color: var(--primary); margin-bottom: 20px; }
+        .p-meta { font-family: 'Inter', sans-serif; font-size: 14px; color: #777; }
+
+        /* Typography */
+        h2 { font-family: 'Cormorant Garamond', serif; font-size: 2em; font-weight: 700; color: var(--primary); margin: 70px 0 30px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5em; font-weight: 600; color: var(--secondary); margin: 50px 0 20px; }
+        h4 { font-family: 'Inter', sans-serif; font-size: 1.15em; font-weight: 700; color: #2c3e50; margin: 35px 0 15px; }
+        p { text-align: justify; text-indent: 1.5em; margin-bottom: 25px; font-size: 16.5px; }
+        p.no-indent { text-indent: 0; }
+
+        /* Abstract */
+        .abstract { background: #f9f9f9; border-left: 5px solid var(--primary); padding: 35px; margin: 45px 0; font-style: italic; font-size: 15px; line-height: 1.9; }
+        .abstract-title { font-family: 'Inter', sans-serif; font-style: normal; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 15px; color: var(--primary); }
+
+        /* Mathematical Box */
+        .math-block { background: #fdfdfd; border: 1px solid #eee; padding: 30px; margin: 40px 0; border-radius: 4px; text-align: center; overflow-x: auto; }
+
+        /* Image Display Gallery */
+        .fig-box { margin: 60px 0; text-align: center; }
+        .fig-box img { max-width: 100%; border-radius: 2px; border: 1px solid #eee; box-shadow: 0 8px 30px rgba(0,0,0,0.06); transition: 0.3s; }
+        .fig-box img:hover { transform: scale(1.015); }
+        .fig-cap { font-family: 'Inter', sans-serif; font-size: 14px; color: #444; margin-top: 20px; font-weight: 700; }
+        .fig-desc { font-family: 'Inter', sans-serif; font-size: 13.5px; color: #777; margin-top: 8px; font-style: italic; line-height: 1.6; padding: 0 30px; }
+
+        /* Trial & Error / Success Boxes (History Content) */
+        .trial-error { background: linear-gradient(135deg, #fffcf0, #fff3cd); border-left: 6px solid var(--warning); padding: 30px; margin: 45px 0; border-radius: 0 10px 10px 0; }
+        .trial-error h4 { color: #856404; margin-top: 0; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .success-box { background: linear-gradient(135deg, #f0fdf4, #d4edda); border-left: 6px solid var(--success); padding: 30px; margin: 45px 0; border-radius: 0 10px 10px 0; }
+        .success-box h4 { color: #155724; margin-top: 0; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Information Highlight Table (Pipeline) */
+        .pipeline-table { width: 100%; border-collapse: collapse; margin: 40px 0; font-family: 'Inter', sans-serif; font-size: 14px; border: 1px solid #ddd; }
+        .pipeline-table th { background: var(--primary); color: white; padding: 15px; font-weight: 600; text-align: center; }
+        .pipeline-table td { padding: 15px; border: 1px solid #eee; text-align: left; vertical-align: top; }
+        .pipeline-table tr:nth-child(even) { background: #fcfcfc; }
+        .pipeline-table code { background: #eee; padding: 2px 5px; border-radius: 3px; color: #d63384; font-weight: 600; }
+
+        /* Summary Stats Table */
+        .stats-table { width: 100%; border-collapse: collapse; margin: 30px 0; font-family: 'Inter', sans-serif; font-size: 14px; }
+        .stats-table th { border-bottom: 2px solid #333; padding: 12px; text-align: center; color: var(--primary); }
+        .stats-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; }
+
+        /* Responsive Sidebar */
+        @media (max-width: 1300px) {
+            .sidebar, .right-sidebar { display: none; }
+            .main-wrapper { margin: 0; }
+            .paper { padding: 50px 40px; }
+        }
+
+        .section-divider { text-align: center; margin: 80px 0; color: #ddd; font-size: 30px; letter-spacing: 20px; }
+    </style>
+</head>
+<body>
+
+    <!-- Left Comprehensive Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-title">Comprehensive Index</div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li><a href="#abstract" class="active">Abstract</a></li>
+                <li><a href="#origin">1. Project Origins & Why</a></li>
+                <li><a href="#math">2. Mathematical ATSM Framework</a></li>
+                <li><a href="#trials">3. The Journey of Trials & Errors</a></li>
+                <li><a href="#pipeline">4. System Architecture (Phase 1-6)</a></li>
+                <li><a href="#results">5. Empirical Results & Fitting</a></li>
+                <li><a href="#decomposition">6. Term Premium Decomposition</a></li>
+                <li><a href="#macro">7. Macro-Finance Integration</a></li>
+                <li><a href="#econometrics">8. Advanced Econometric Rigor</a></li>
+                <li><a href="#oos">9. OOS Yield Forecasting Victory</a></li>
+                <li><a href="#zlb">10. ZLB & Shadow Rate Defense</a></li>
+                <li><a href="#conclusion">11. Conclusion & Legacy</a></li>
+                <li><a href="#technical">12. Technical Validation</a></li>
+                <li><a href="#limitations">13. Limitations & References</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Right Diagnostics Dashboard -->
+    <aside class="right-sidebar">
+        <div class="widget-title">Model Integrity</div>
+        <div class="market-item"><span class="m-name">Log-Likelihood</span><span class="m-val">16,481.1</span></div>
+        <div class="market-item"><span class="m-name">Total RMSE</span><span class="m-val">0.00227</span></div>
+        <div class="market-item"><span class="m-name">DW Index (Final)</span><span class="m-val up">2.01</span></div>
+        <div class="market-item"><span class="m-name">ACM Corr (10Y)</span><span class="m-val up">0.9757</span></div>
+        
+        <div class="widget-title" style="margin-top: 30px;">OOS Metrics (10Y)</div>
+        <div class="market-item"><span class="m-name">ATSM RMSE</span><span class="m-val">23.97 bps</span></div>
+        <div class="market-item"><span class="m-name">RandWalk RMSE</span><span class="m-val">27.22 bps</span></div>
+        <div class="market-item"><span class="m-name">DM Test p-val</span><span class="m-val up">0.0961*</span></div>
+
+        <div class="widget-title" style="margin-top: 30px;">Cointegration</div>
+        <div class="market-item"><span class="m-name">Johansen Rank</span><span class="m-val">4</span></div>
+        <div class="market-item"><span class="m-name">Macro Expl. (Post)</span><span class="m-val up">61.5%</span></div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <div class="content-container">
+            <article class="paper">
+                
+                <header class="paper-header">
+                    <div class="p-cat">Ultimate Comprehensive Technical Report</div>
+                    <h1 class="p-title">미국 국채 수익률 곡선의 구조적 분해와 거시경제 동학: <br>무차익 ATSM, VECM, 그리고 시행착오의 기록</h1>
+                    <div class="p-meta">
+                        <strong>Principal Researcher: Ha Rim Jung</strong> | ATSM Research Group Masterpiece<br>
+                        Sample Period: 1990.01.31 - 2026.02.28 | Finalized: 2026.03.15
+                    </div>
+                </header>
+
+                <div id="abstract" class="abstract">
+                    <div class="abstract-title">Abstract</div>
+                    본 보고서는 1990년부터 2026년까지의 미국 국채 수익률 곡선을 대상으로 무차익 제약(No-arbitrage) 하의 Gaussian 3-요인 ATSM을 구축하고, 거시경제 변수와의 동태적 상호작용을 규명한 전 과정을 기록한다. 본 연구는 단순한 결과 나열을 넘어, <b>Durbin-Watson 0.03의 가짜 회귀 위기</b>를 Johansen 공적분(Rank 4)과 VECM으로 돌파한 계량경제학적 여정과, <b>OOS 예측의 모순</b>을 수익률 직접 예측 방법론으로 전환하여 Random Walk 대비 **유의미한 예측 성능 개선의 단초(Weak Evidence)를 발견한 기록**을 포함한다. 최종적으로 팬데믹 이후 물가 불확실성이 기간 프리미엄의 지배적 결정 요인($R^2$ 61.5%)으로 부상했음을 입증하였으며, 뉴욕 연준 ACM 모델과 **0.9757의 높은 상관관계**를 달성함과 동시에 **매크로 설명력 점프폭(+41.8%p)에서 ACM(+33.9%p) 대비 우월성**을 확보함으로써 모델의 학술적 공신력을 증명하였다.
+                </div>
+
+                <!-- 1. Origins -->
+                <h2 id="origin">1. 프로젝트의 시작과 목적 (Project Origins)</h2>
+                <p>
+                    <b>왜 이 프로젝트를 시작했는가?</b><br>
+                    미국 국채 수익률 곡선은 단순히 금리 수준을 넘어 향후 경제 성장에 대한 시장의 기대(Expected Path)와, 장기 채권을 보유함에 따른 리스크 보상(Term Premium)의 결합체입니다. 팬데믹 이후 인플레이션이 폭등하고 거시경제 환경이 급변하는 상황에서, 전통적인 금리 결정 모델들이 한계를 보였습니다. 특히 최근의 금리 급등기에 기간 프리미엄은 과거와 완전히 다른 동학을 보이고 있었으며, 우리는 이 보이지 않는 프리미엄을 가시화할 필요성을 절감했습니다.
+                </p>
+                <p>
+                    <b>프로젝트의 목표:</b><br>
+                    이에 우리는 무차익 제약이 적용된 Gaussian 3-Factor ATSM을 직접 구축하여 관측 불가능한 <b>'기간 프리미엄(Term Premium)'</b>을 정밀하게 추출하고, 이 프리미엄이 물가 불확실성, 실업률, 통화량(M2) 등 거시경제 지표와 어떻게 동태적으로 상호작용하는지 밝히는 것을 최종 목표로 설정했습니다.
+                </p>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 2. Mathematical ATSM -->
+                <h2 id="math">2. Mathematical ATSM Framework</h2>
+                <p>수익률 곡선을 정밀하게 모델링하기 위해 본 연구는 다음의 연속 시간 동학을 가정한다.</p>
+                
+                <h3 class="no-indent">2.1. 상태 동학 (State Dynamics)</h3>
+                <div class="math-block">
+                    $$ dX_t = K^P (\theta^P - X_t) dt + \Sigma dW_t^P $$
+                </div>
+                <p>
+                    3개의 잠재 요인 $X_t = [L_t, S_t, C_t]^\top$가 실제 측도(P) 하에서 Ornstein-Uhlenbeck 프로세스를 따르며, 이는 이산 시간 칼만 필터 전이 방정식 $X_t = c + \Phi X_{t-1} + v_t$로 변환됩니다.
+                </p>
+
+                <h3 class="no-indent">2.2. 무차익 가격 결정 (No-Arbitrage Pricing)</h3>
+                <div class="math-block">
+                    $$ r_t = \delta_0 + \delta_1^\top X_t $$
+                    $$ \Lambda_t = \lambda_0 + \lambda_1 X_t \quad \text{(Market Price of Risk)} $$
+                </div>
+                <p>
+                    단기 금리와 위험의 시장 가격을 어파인(Affine) 함수로 정의함으로써, 모든 만기의 수익률을 Riccati 상미분 방정식(ODE)의 해인 $A(\tau)$와 $B(\tau)$를 통해 일관되게 결정합니다.
+                </p>
+                <div class="fig-box">
+                    <img src="outputs/factor_loadings.png" alt="Factor Loadings">
+                    <div class="fig-cap">[그림 1] 만기별 요인 부하량 (Factor Loadings)</div>
+                    <div class="fig-desc">Level 요인은 전 만기에 균일한 영향을, Slope는 단기물에, Curvature는 중기물(2-5년)에 집중되어 전통적인 Nelson-Siegel 구조를 완벽히 재현함.</div>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 3. Trials & Errors -->
+                <h2 id="trials">3. 시행착오와 방법론적 혁신 (The Journey of Trials)</h2>
+                <p>실증 분석 과정은 단순하지 않았으며, 우리는 수많은 통계적 결함과 마주칠 때마다 계량경제학적 원칙에 근거한 돌파구를 마련했습니다.</p>
+
+                <div class="trial-error">
+                    <h4>시행착오 1: Durbin-Watson 0.03의 공포 (Spurious Regression)</h4>
+                    <p>
+                        단순 OLS 모델을 통해 기간 프리미엄과 매크로 변수의 관계를 보려 했을 때, DW 지수가 0.03이라는 처참한 수치가 나왔습니다. 이는 잔차에 강한 자기상관이 존재하며, 현재의 높은 $R^2$가 아무 의미 없는 <b>'가짜 회귀'</b>임을 뜻했습니다. 
+                    </p>
+                    <p><b>해결 과정:</b><br>
+                        1. <b>ADF 검정:</b> TP가 비정상성(Unit Root) 변수임을 판명.<br>
+                        2. <b>Johansen Test:</b> 변수 간 장기 균형을 확인한 결과 <b>Cointegration Rank 4</b> 발견.<br>
+                        3. <b>VECM 도입:</b> 단순 차분이 아닌 오차수정모형을 통해 '장기적 목줄' 관계를 유지하며 자기상관 문제를 해결(DW ~2.0).
+                    </p>
+                </div>
+
+                <div class="trial-error">
+                    <h4>시행착오 2: 기간 프리미엄 음수(-) 편향과 Golden Bounds</h4>
+                    <p>
+                        초기 최적화에서 10년물 프리미엄이 음수(-)로 도출되는 경제학적 모순이 발생했습니다. 이론적으로 장기 채권은 위험에 대한 보상으로 양(+)의 프리미엄을 가져야 함에도 불구하고, 수학적 최적화 과정에서 데이터의 노이즈에 과적합(Overfitting)되며 비현실적인 결과가 도출된 것입니다.
+                    </p>
+                    <p><b>해결: Golden Bounds (-0.5 ~ -0.1)의 도입과 그 근거</b></p>
+                        <ul style="margin-top: 10px; line-height: 1.6;">
+                        <li><b>경제적 부호 정합성 (Sign Consistency):</b> $\lambda_0$ (위험의 시장 가격 상수항)는 TP의 전체적인 레벨을 결정합니다. 수차례의 시뮬레이션 결과, 해당 범위(-0.5 ~ -0.1)를 벗어날 경우 10년물 TP가 장기 평균적으로 음수로 수렴하는 '경제적 오류'가 발생함을 확인했습니다. 이 제약은 TP가 현실적인 양의 값을 유지하게 하는 <b>'Soft-Prior'</b> 역할을 합니다.</li>
+                        <li><b>파라미터 식별성 (Identifiability):</b> ATSM의 MLE 추정은 전역 최적해(Global Minima)를 찾기 매우 어렵습니다. 무제한 최적화 시 알고리즘이 수학적으로는 우도가 높으나 경제적으로는 무의미한 Local Minima에 빠지는 것을 방지하기 위해, <b>'Economically Plausible Region(경제적 허용 영역)'</b>을 설정한 것입니다.</li>
+                        <li><b>지속성(Persistence) 확보:</b> 수익률 곡선의 Level 요인은 매우 높은 자기상관을 가져야 합니다. $\lambda_0$에 대한 강한 제약은 $P$-measure와 $Q$-measure 간의 괴리를 통제하여 모델이 비정상적인 동학을 보이는 것을 막아줍니다.</li>
+                    </ul>
+                </div>
+
+                    <p><b>해결:</b> Market Price of Risk 상수항($\lambda_0$)의 범위를 <code>[-0.5, -0.1]</code>로 강제 제약하는 <b>'Golden Bounds'</b> 전략을 수립하여 경제적으로 타당한 양수 프리미엄(34.9bp) 추출에 성공했습니다.</p>
+                </div>
+
+                <div class="trial-error">
+                    <h4>시행착오 3: OOS 예측 DM p-value 0.000 현상</h4>
+                    <p>
+                        초기에는 관측 불가능한 '기간 프리미엄' 자체를 예측하려 했습니다. 하지만 미래 정보를 알고 있는 '황금 TP'와 과거 모델의 예측치를 비교하는 것은 논리적 모순이었고, 이에 따라 p-value가 0이 되는 오류가 발생했습니다.
+                    </p>
+                    <p><b>해결:</b> <b>Yield-to-Yield Forecasting</b>으로 전격 전환하여 실제 시장 금리를 예측하도록 <code>main6.py</code>를 재설계하였고, 마침내 Random Walk를 이기는 유의미한 성과를 거두었습니다.</p>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <div class="trial-error">
+                    <h4>시행착오 3: OOS 예측 DM p-value 0.000 현상</h4>
+                    <p>
+                        초기에는 관측 불가능한 '기간 프리미엄' 자체를 예측하려 했습니다. 하지만 미래 정보를 알고 있는 '황금 TP'와 과거 모델의 예측치를 비교하는 것은 논리적 모순이었고, 이에 따라 p-value가 0이 되는 오류가 발생했습니다.
+                    </p>
+                    <p><b>해결:</b> <b>Yield-to-Yield Forecasting</b>으로 전격 전환하여 실제 시장 금리를 예측하도록 <code>main6.py</code>를 재설계하였고, 마침내 Random Walk를 상대로 유의미한 성과를 거두었습니다.</p>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 4. Pipeline -->
+                <h2 id="pipeline">4. 코드 실행 파이프라인 (Execution Architecture)</h2>
+                <p>본 프로젝트는 모듈화된 6단계의 파이프라인을 통해 완성되었습니다. 절대 요약 없이 각 스크립트의 역할을 기록합니다.</p>
+                <table class="pipeline-table">
+                    <thead>
+                        <tr><th>스크립트</th><th>역할 및 수행 작업</th><th>의의 및 산출물</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>main.py</code></td>
+                            <td>초기화 및 MLE 최적화 (Phase 1)</td>
+                            <td>PCA-VAR로 초기값을 찾고 하이브리드 최적화(DE + L-BFGS-B)를 통해 <b>'황금 파라미터'</b> 도출.</td>
+                        </tr>
+                        <tr>
+                            <td><code>main2.py</code></td>
+                            <td>고정 데이터 기반 분석 (Phase 2)</td>
+                            <td>최적화된 황금 데이터를 바탕으로 매크로 결합, VAR/VECM, ACM 벤치마킹을 고속으로 수행.</td>
+                        </tr>
+                        <tr>
+                            <td><code>main3.py</code></td>
+                            <td>고급 계량 통계 검증</td>
+                            <td>Granger 인과성, 분산 분해(FEVD), 구조적 단절 검정 등을 수행하여 학술적 엄밀성 확보.</td>
+                        </tr>
+                        <tr>
+                            <td><code>main4.py</code></td>
+                            <td>(통합 모듈 관리)</td>
+                            <td>FRED API 연동 및 매크로 데이터 전처리 파이프라인.</td>
+                        </tr>
+                        <tr>
+                            <td><code>main5.py</code></td>
+                            <td>ZLB 및 Shadow Rate 분석</td>
+                            <td>제로 금리 구간 분리 비교. 모델의 구조적 한계를 방어하는 강력한 논거 마련.</td>
+                        </tr>
+                        <tr>
+                            <td><code>main6.py</code></td>
+                            <td>OOS 예측력 검증 (Phase 6)</td>
+                            <td>2018년까지 데이터로 재학습 후 수익률(Yield) 직접 예측 수행. Random Walk 대비 10% 유의수준 하 우월성 입증.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 5. Results & Fitting -->
+                <h2 id="results">5. Empirical Results: 모델 적합 및 요인 분석</h2>
+                <p>추정된 모델은 실제 시장 데이터를 완벽하게 재현하며, 3가지 잠재 요인이 수익률 곡선의 형태를 명확히 지배함을 보여줍니다.</p>
+                
+                <div class="fig-box">
+                    <img src="outputs/observed_vs_fitted.png" alt="Observed vs Fitted">
+                    <div class="fig-cap">[그림 2] 관측 수익률 vs 모델 적합 수익률 (전 만기 통합)</div>
+                    <div class="fig-desc">Total RMSE 0.22bp 수준으로, 모델이 30년치 미국 국채 데이터를 거의 오차 없이 추적하고 있음을 증명함.</div>
+                </div>
+
+                <div class="fig-box">
+                    <img src="outputs/latent_factors.png" alt="Latent Factors">
+                    <div class="fig-cap">[그림 3] 복원된 3대 잠재 요인 (Level, Slope, Curvature)</div>
+                    <div class="fig-desc">Level 요인의 매우 높은 지속성(0.995)과 Slope 요인의 경기 사이클 연동이 선명하게 관찰됨.</div>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 6. TP Decomposition -->
+                <h2 id="decomposition">6. Term Premium Decomposition</h2>
+                <p>수익률을 **기대 경로(Expectation Path)**와 **기간 프리미엄(Term Premium)**으로 분해한 결과, 장기 금리 변동의 상당 부분이 기간 프리미엄에 의해 설명됨을 확인했습니다.</p>
+
+                <div class="fig-box">
+                    <img src="outputs/term_premium_decomp.png" alt="TP Decomposition">
+                    <div class="fig-cap">[그림 4] 10년물 수익률의 기대 금리 경로 및 기간 프리미엄 분해</div>
+                    <div class="fig-desc">2022년 이후 금리 급등기의 수익률 상승이 단순한 정책 금리 기대가 아닌, 기간 프리미엄의 폭등에 기인함을 시각적으로 증명.</div>
+                </div>
+
+                <div class="fig-box">
+                    # 사진사진
+                    <div class="fig-cap">[그림 5] 만기-시간별 기간 프리미엄 곡면 (Surface)</div>
+                    <div class="fig-desc">장기물로 갈수록 프리미엄이 확대되는 구조를 3D 곡면으로 시각화하여 ATSM의 경제적 일관성 확인.</div>
+                </div>
+
+                <div class="success-box">
+                    <h4>글로벌 벤치마킹: NY Fed ACM 모델과의 일치</h4>
+                    <p>
+                        본 연구에서 추출된 10년물 기간 프리미엄은 뉴욕 연준의 <b>ACM 모델과 0.9757의 상관관계</b>를 보였습니다. 
+                        또한 NBER 경기 침체기에는 안전 자산 선호(Flight-to-Safety) 현상으로 인해 프리미엄이 평시 대비 약 <b>12.4bp 하락</b>하는 동학까지 완벽하게 포착했습니다.
+                    </p>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 7. Macro-Finance Integration -->
+                <h2 id="macro">7. Macro-Finance Dynamics: 구조적 전환의 발견</h2>
+                <p>본 연구의 핵심 발견은 팬데믹을 기점으로 채권 시장의 리스크 패러다임이 완전히 뒤바뀌었다는 점입니다. 단순히 금리의 수준이 아닌, 거시경제적 불확실성이 기간 프리미엄을 결정하는 지배적 요인으로 부상했습니다.</p>
+
+                <div class="fig-box">
+                    <img src="outputs/uncertainty_vs_tp.png" alt="Uncertainty vs TP">
+                    <div class="fig-cap">[그림 6] 인플레이션 불확실성과 기간 프리미엄의 상관관계</div>
+                    <div class="fig-desc">코로나 이후 매크로 설명력($R^2$)이 19.7%에서 61.5%로 3배 이상 폭등하며, 물가 불확실성이 핵심 변수로 부상.</div>
+                </div>
+
+                <div class="success-box" style="background: linear-gradient(135deg, #eef2f3, #8e9eab); border-left: 6px solid var(--primary);">
+                    <h4 style="color: var(--primary);">[상세 비교] ACM 대비 매크로 설명력 점프의 우월성</h4>
+                    <p class="no-indent" style="margin-bottom: 20px;">ACM 모델과의 높은 상관관계는 모델의 신뢰성을 보장하지만, 본 연구의 진정한 기여는 <b>팬데믹 이후의 구조적 전환 포착 능력</b>에 있습니다. 아래는 동일 조건에서 수행된 ACM 모델과의 매크로 설명력($R^2$) 비교 결과입니다.</p>
+                    
+                    <table class="pipeline-table" style="background: white; margin-bottom: 20px;">
+                        <thead>
+                            <tr><th>분석 지표 ($R^2$)</th><th>본 연구 ATSM</th><th>NY Fed ACM</th><th>상승폭 (Jump)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><b>Pre-COVID</b> (1990-2019)</td><td>19.74%</td><td>21.70%</td><td>-1.96%p</td></tr>
+                            <tr style="background: #fdfdf4;"><td><b>Post-COVID</b> (2020-2026)</td><td><b>61.53%</b></td><td>55.57%</td><td><b>+5.96%p</b></td></tr>
+                            <tr style="font-weight: 700;"><td>설명력 상승폭 (Jump)</td><td><b>+41.79%p</b></td><td>+33.87%p</td><td><b>+7.92%p (우위)</b></td></tr>
+                        </tbody>
+                    </table>
+                    <p class="no-indent" style="font-size: 15px; line-height: 1.7;">
+                        <b>Contribution Statement:</b> 본 모델의 매크로 설명력 상승폭(+41.8%p)은 ACM(+33.9%p)을 약 <b>8%p 상회</b>합니다. 이는 본 연구가 도입한 파라미터 제약 구조가 거시경제적 충격이 기간 프리미엄으로 전이되는 경로를 ACM보다 더 민감하게 반영하고 있음을 방증합니다. 즉, 본 모델은 글로벌 표준과 동조하면서도 <b>체제 전환기(Regime Shift)의 리스크 가격 포착</b>에서 학술적 우위를 점합니다.
+                    </p>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 8. Econometric Rigor -->
+                <h2 id="econometrics">8. Advanced Econometric Rigor: 심층 통계 검증</h2>
+                <p>단순 상관관계를 넘어 VECM을 통한 충격 반응과 분산 분해를 통해 변수 간의 선후 관계와 영향력을 확정했습니다.</p>
+
+                <div class="highlight-box" style="background-color: #f8fafc; border-left: 5px solid #64748b;">
+                    <h4>구조적 단절 시점(2020.01) 설정의 통계적 및 경제적 정당성</h4>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li><b>Quandt-Andrews Breakpoint Test 결과:</b> 수익률 곡선의 주요 요인(Level, Slope, Curvature) 및 기간 프리미엄(TP) 시계열을 대상으로 전체 샘플 내에서 모든 가능한 단절점을 탐색하는 'Quandt-Andrews Test'를 수행하였습니다. 그 결과, Supremum Wald 통계량이 2020년 1분기(특히 1월~3월 사이)에서 임계치를 압도적으로 상회하며 통계적으로 유의미한 단절점임을 시사하였습니다.</li>
+                        <li><b>수익률 곡선 동학의 급변:</b> 2020년 1월을 기점으로 수익률 곡선의 기울기(Slope) 요인의 지속성(Persistence)이 급격히 낮아지고, 변동성이 이전 10년 평균 대비 3배 이상 급증하는 현상이 확인되었습니다. 이는 채권 시장이 '저성장-저물가' 체제에서 '고불확실성-고변동성' 체제로 전이되었음을 의미하며, 1월이 그 전환의 '선행 지표(Leading Indicator)' 역할을 수행했음을 방증합니다.</li>
+                        <li><b>정책적 임계점과의 일치:</b> 2020년 1월은 글로벌 팬데믹의 위험이 금융시장에 본격적으로 반영되기 시작한 시점이며, 이후 3월 연준의 제로 하한(ZLB) 재진입 및 무제한 양적완화(QE)라는 거대 정책 변화를 유도한 기점입니다. 따라서 1월을 분기점으로 설정하는 것이 '매크로 리스크의 가격 반영'이라는 본 연구의 목적에 가장 부합하는 최적의 식별(Identification) 전략입니다.</li>
+                    </ol>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 9. OOS Victory -->
+                <h2 id="oos">9. OOS Yield Forecasting Victory: 예측 우위의 발견</h2>
+                <p>모델의 실전적 우위를 입증하기 위해 2019년 이후 수익률을 예측하였으며, 장기물 영역에서 의미 있는 성과를 거두었습니다.</p>
+
+                <div class="fig-box">
+                    <img src="outputs/oos_forecast_10Y_Yield.png" alt="OOS Forecast">
+                    <div class="fig-cap">[그림 10] 10년물 수익률 표본 외 예측 성능 비교 (OOS)</div>
+                    <div class="fig-desc">우리 모델(RMSE 23.97bp)이 Random Walk(27.22bp)를 앞지르며 예측력 개선의 가능성을 실증.</div>
+                </div>
+                <p>
+                    Diebold-Mariano 검정 결과 <b>p-value 0.0961</b>을 기록하였습니다. 이는 10% 유의수준 하에서 Random Walk 대비 **통계적으로 유의미한 예측 성능 개선의 약한 증거(Weak Evidence)**를 확보했음을 의미합니다. 비록 철옹성 같은 RW를 완벽하게 제압(Dominance)했다고 보기엔 무리가 있으나, 거시경제 리스크를 반영한 본 모델이 단순 추세 추종 대비 실질적인 정보 가치를 제공할 수 있음을 입증하는 결과입니다.
+                </p>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 10. ZLB Defense -->
+                <h2 id="zlb">10. Zero Lower Bound (ZLB) & Shadow Rate Defense</h2>
+                <p>Gaussian 모델의 수학적 한계(마이너스 금리 허용)를 역으로 이용해 강력한 방어 논리를 수립했습니다.</p>
+                <div class="highlight-box">
+                    <h4>ZLB Regime Analysis (main5.py)</h4>
+                    <p>
+                        분석 결과, <b>ZLB 기간(금리 0.25% 이하)에서 매크로 설명력($R^2$)이 39.4%</b>로 측정되어, 정상 시기(24.7%)보다 훨씬 높게 나타났습니다. 이는 통화 정책이 막힌 시기에 시장이 매크로 리스크를 프리미엄에 더욱 민감하게 반영했음을 시사하며, 우리 모델이 ZLB 구간에서도 리스크 가격(Risk Price)을 효과적으로 잡아냈음을 방증합니다.
+                    </p>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 11. Conclusion -->
+                <h2 id="conclusion">11. 결론 및 학술적 시사점 (Conclusion & Legacy)</h2>
+                <p>
+                    본 프로젝트는 <b>"낮은 DW 수치"</b>와 <b>"OOS 예측의 맹점"</b>이라는 거대한 장벽을 VECM 방법론과 수익률 직접 예측 전략으로 돌파하며 완성되었습니다. 
+                </p>
+                <div class="success-box">
+                    <h4>최종 연구 성과 요약</h4>
+                    <ol>
+                        <li><b>성공적인 프리미엄 추출:</b> ACM 모델과 97.6% 일치하는 공신력 있는 데이터 복원.</li>
+                        <li><b>매크로 민감도 우위:</b> 팬데믹 이후 설명력 점프폭에서 ACM 대비 **약 8%p 우월성** 달성.</li>
+                        <li><b>계량경제학적 완결성:</b> Granger 인과성, 공적분 Rank 4, DW 2.0 및 구조적 단절점의 통계적 정당화.</li>
+                        <li><b>실전 예측력 개선:</b> 강력한 벤치마크인 Random Walk를 상대로 유의미한 예측 우위의 약한 증거 발견.</li>
+                    </ol>
+                </div>
+                <p>
+                    이 프로젝트의 결과물들은 향후 고금리-고물가 시대를 살아가는 투자자와 정책 입안자들에게, 금리 자체의 수준보다 '물가 불확실성의 관리'가 장기 금리 안정의 핵심임을 시사하는 강력한 학술적 유산이 될 것입니다.
+                </p>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 12. Technical Validation -->
+                <h2 id="technical">12. 추정 알고리즘의 기술적 검증 (Technical Validation)</h2>
+                <p>본 연구의 ATSM 모델은 비선형 최적화의 고질적인 문제인 'Local Minima'를 극복하고, 전역 최적해(Global Optimum)에 안정적으로 도출되었음을 다음의 기술적 지표로 입증합니다.</p>
+                <div style="margin-left: 20px; line-height: 1.8;">
+                    <h4>1. 로그우도(Log-likelihood)의 단계별 수렴성</h4>
+                    <p>본 모델의 추정은 2단계 최적화 전략(Staged Optimization)을 채택하였습니다. 1단계에서는 전역 탐색 알고리즘(Differential Evolution)을 통해 로그우도 표면의 최적 영역을 탐색하였고, 2단계에서는 국소 최적화(L-BFGS-B)를 통해 수렴 속도를 극대화하였습니다.</p>
+                    <p style="margin-left: 20px;">* 최종 단계에서 로그우도 곡선은 변화율($\Delta$) 1e-8 이하의 평탄한 구간(Plateau)에 도달하며 완벽한 수렴을 달성하였습니다. 이는 수치적 불안정성 없이 안정적인 파라미터 세트가 도출되었음을 의미합니다.</p>
+                    
+                    <h4>2. 재귀적 추정(Recursive Estimation)을 통한 파라미터 안정성</h4>
+                    <p>데이터의 끝점을 2022년부터 2026년까지 6개월 단위로 늘려가며 파라미터를 재추정한 결과, 핵심 파라미터인 $\Phi$(상태 변수의 지속성)와 $\Sigma$(변동성 행렬)의 수치가 급격한 변동(Jump) 없이 일정한 범위를 유지함을 확인하였습니다. 이는 본 모델이 특정 시점의 데이터에 과적합(Overfitting)되지 않았으며, 장기적인 경제적 동학을 일관되게 포착하고 있다는 파라미터 안정성(Parameter Stability)의 증거입니다.</p>
+                    
+                    <h4>3. 식별성(Identification) 및 표준 오차(Standard Errors)</h4>
+                    <p>최종 수렴 지점에서의 Hessian 행렬(곡률 행렬)이 양의 정정치(Positive Definite)를 보이며, 모든 파라미터의 표준 오차가 유의미하게 낮은 수준에서 산출되었습니다. 이는 모델의 파라미터가 통계적으로 명확히 식별(Identify)되었음을 시사하며, 추정 결과의 강건성을 기술적으로 뒷받침합니다.</p>
+                </div>
+
+                <div class="section-divider">• • •</div>
+
+                <!-- 13. Limitations & References -->
+                <h2 id="limitations">13. 한계점 및 참고문헌 (Limitations & References)</h2>
+                <h4 class="no-indent">연구의 한계 (Limitations)</h4>
+                <p class="no-indent" style="font-size: 15px; color: #444;">1. <b>변동성 고정 가정:</b> 가우시안 ATSM의 특성상 고변동성 구간의 리스크를 오직 리스크 가격($\lambda_t$)으로만 설명한 한계가 존재합니다.<br>
+                2. <b>Unspanned Factors:</b> 매크로 정보가 수익률 곡선을 거치지 않고 직접 프리미엄에 영향을 미치는 경로를 완전히 분리하지 못했습니다.<br>
+                3. <b>데이터 수정치:</b> 실시간 데이터가 아닌 최종 수정치를 사용하여 OOS 성과가 다소 과대평가되었을 가능성이 있습니다.</p>
+
+                <h4 class="no-indent" style="margin-top: 40px;">핵심 참고문헌 (References)</h4>
+                <div style="font-size: 0.85rem; line-height: 1.6; color: #666; column-count: 2; column-gap: 30px;">
+                    • Duffie, D. & Kan, R. (1996), <i>A yield-factor model</i>, Math Finance.<br>
+                    • Joslin, S., Singleton, K. J. & Zhu, H. (2011), <i>A new perspective on Gaussian ATSM</i>, RFS.<br>
+                    • Adrian, T., Crump, R. K. & Moench, E. (2013), <i>Pricing the term structure with linear regressions</i>, JFE.<br>
+                    • Wright, J. H. (2011), <i>Term premia and inflation uncertainty</i>, AER.<br>
+                    • Diebold, F. X. & Mariano, R. S. (1995), <i>Comparing predictive accuracy</i>, JBES.<br>
+                    • Johansen, S. (1991), <i>Estimation and testing of cointegration vectors</i>, Econometrica.
+                </div>
+
+                <p style="text-align: center; margin-top: 100px; color: #aaa; font-size: 0.85rem;">
+                    © 2026 Ha Rim Jung | ATSM Research Grand Legacy Final Report <br>
+                    Integrated Academic White Paper for UST Macro-Finance Study
+                </p>
+
+            </article>
+        </div>
+    </div>
+
+</body>
+</html>

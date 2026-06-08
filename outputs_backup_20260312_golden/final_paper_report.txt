@@ -1,0 +1,35 @@
+Log-Likelihood: 16481.0849
+Total RMSE: 0.002278
+
+--- Summary Statistics: Latent Factors ---
+               mean       std       min       max  persistence_ar1
+Level      0.043576  0.020643  0.000979  0.088301         0.993182
+Slope     -0.028253  0.023292 -0.073885  0.018960         0.992875
+Curvature -0.173347  0.080202 -0.316903 -0.007751         0.999001
+
+--- Summary Statistics: Term Premium ---
+          mean       std       min       max  persistence_ar1
+1.0  -0.000305  0.000271 -0.000921  0.000189         0.993712
+2.0  -0.000383  0.000510 -0.001534  0.000549         0.993882
+3.0  -0.000277  0.000725 -0.001902  0.001050         0.994037
+5.0   0.000360  0.001108 -0.002080  0.002383         0.994295
+7.0   0.001393  0.001451 -0.001785  0.004031         0.994473
+10.0  0.003388  0.001927 -0.000937  0.006869         0.994616
+20.0  0.011397  0.003402  0.003645  0.017578         0.994578
+30.0  0.019649  0.004881  0.008618  0.028721         0.994369
+
+==================================================
+PHASE 3: MACRO-TP ANALYSIS RESULTS
+==================================================
+Sample Period: 1992-02-29 to 2025-09-30
+Full Sample R-squared: 0.1878
+Pre-COVID R-squared: 0.1974
+Post-COVID R-squared: 0.6153
+
+--- Post-COVID Regression Coefficients ---
+const                 0.003101
+INF_LEVEL_lag1        0.012648
+INF_UNCERTAIN_lag1    0.151327
+UNRATE_lag1           0.000076
+M2_GROWTH_lag1        0.007580
+INDPRO_GROWTH_lag1   -0.003241
