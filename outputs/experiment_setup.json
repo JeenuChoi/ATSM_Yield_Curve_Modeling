@@ -1,0 +1,81 @@
+{
+  "project_name": "ATSM Term Premium & Macro Dynamics",
+  "version": "1.0.0",
+  "last_updated": "2026-03-15",
+  "objective": "Decompose Treasury yields into latent factors and term premiums to analyze their relationship with macroeconomic variables.",
+  "data_configuration": {
+    "yield_source": "Gurkaynak, Sack, and Wright (GSW)",
+    "yield_maturities_years": [1, 2, 3, 5, 7, 10, 20, 30],
+    "sample_period": {
+      "start": "1990-01-31",
+      "end": "2026-02-28",
+      "frequency": "Monthly (Month-End)"
+    },
+    "macro_variables": {
+      "FRED_IDs": {
+        "INDPRO": "Industrial Production",
+        "M2SL": "M2 Money Stock",
+        "CPIAUCSL": "Consumer Price Index",
+        "UNRATE": "Unemployment Rate",
+        "USREC": "NBER Recession Indicator"
+      },
+      "derived_variables": {
+        "INF_UNCERTAIN": "12-month rolling std of CPI log-changes"
+      }
+    }
+  },
+  "model_parameters": {
+    "latent_factors": 3,
+    "kalman_filter": {
+      "initial_state_X0": [0, 0, 0],
+      "initial_covariance_P0": 0.01
+    },
+    "mle_optimization": {
+      "optimizer": "Differential Evolution (Global) + L-BFGS-B (Local)",
+      "golden_initial_guess": {
+        "lambda0": [-0.3, -0.3, -0.3],
+        "lambda1": -0.01,
+        "delta0": 0.03
+      },
+      "constraints": {
+        "lambda0_bounds": [-0.5, -0.1],
+        "KQ_diagonal_bounds": "Nelson-Siegel restricted"
+      }
+    }
+  },
+  "econometric_setup": {
+    "stationarity_test": "Augmented Dickey-Fuller (ADF)",
+    "cointegration_test": "Johansen Procedure",
+    "var_model": {
+      "max_lags": 12,
+      "selection_criterion": "AIC",
+      "actual_lag_used": 12
+    },
+    "vecm_model": {
+      "rank": 4,
+      "deterministic_term": "Constant"
+    }
+  },
+  "validation_metrics": {
+    "mle_performance": {
+      "log_likelihood": 16481.08,
+      "total_rmse": 0.002278
+    },
+    "benchmarking": {
+      "benchmark_model": "NY Fed Adrian, Crump, and Moench (ACM)",
+      "target_maturity": "10-Year",
+      "correlation_achieved": 0.9757
+    },
+    "statistical_integrity": {
+      "target_durbin_watson": 2.0,
+      "achieved_dw_range": [1.97, 2.02]
+    }
+  },
+  "operational_scripts": {
+    "optimization_pipeline": "main.py",
+    "fixed_data_analysis": "main2.py",
+    "macro_loader": "src/data/macro_loader.py",
+    "econometric_module": "src/analysis/econometrics.py",
+    "benchmarking_module": "src/analysis/benchmarking.py"
+  }
+}

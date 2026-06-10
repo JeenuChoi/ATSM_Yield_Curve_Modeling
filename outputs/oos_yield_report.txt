@@ -1,0 +1,14 @@
+--- Maturity: 10Y Yield ---
+Forecast Period: 2019-01-31 to 2026-02-28
+Our Model RMSE: 25.66 bps
+Random Walk RMSE: 27.22 bps
+Diebold-Mariano Stat: 0.8269, P-value: 0.4083
+Conclusion: Model is NOT SIGNIFICANTLY BETTER than Random Walk.
+
+--- Maturity: 2Y Yield ---
+Forecast Period: 2019-01-31 to 2026-02-28
+Our Model RMSE: 28.78 bps
+Random Walk RMSE: 27.69 bps
+Diebold-Mariano Stat: -0.6144, P-value: 0.5389
+Conclusion: Model is NOT SIGNIFICANTLY BETTER than Random Walk.
+

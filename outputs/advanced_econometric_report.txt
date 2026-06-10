@@ -1,0 +1,22 @@
+============================================================
+PHASE 6: ADVANCED ECONOMETRIC RIGOR (SCI/SCOPUS LEVEL)
+============================================================
+
+--- [1] Granger Causality Test Results ---
+        Cause       Target Min P-Value Significant?
+    INF_LEVEL Term_Premium      0.0369          YES
+INF_UNCERTAIN Term_Premium      0.0073          YES
+       UNRATE Term_Premium      0.6739           NO
+    M2_GROWTH Term_Premium      0.2167           NO
+
+--- [2] Variance Decomposition (at 24 months) ---
+Term_Premium        : 85.85%
+INF_LEVEL           : 3.19%
+INF_UNCERTAIN       : 3.84%
+UNRATE              : 4.72%
+M2_GROWTH           : 2.40%
+
+--- [3] Structural Break (Chow Test: 2020-01-01) ---
+F-statistic: 16.4710
+P-value    : 8.9928e-15
+Result     : YES

@@ -1,0 +1,16 @@
+============================================================
+PHASE 4: ADVANCED ECONOMETRIC ANALYSIS (VAR vs VECM)
+============================================================
+Cointegration Rank: 3
+
+--- VECM Estimation Results ---
+Status: Long-term equilibrium relationship detected and modeled.
+Selected Rank: 3
+
+--- VAR (Short-term) Results ---
+Optimal Lag: 12
+Durbin-Watson Statistics (After VAR):
+  Term_Premium        : 1.9856
+  INF_UNCERTAIN       : 2.0243
+  UNRATE              : 2.0120
+  M2_GROWTH           : 1.9637

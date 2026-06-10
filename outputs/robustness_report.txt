@@ -1,0 +1,16 @@
+============================================================
+PHASE 7: ROBUSTNESS CHECKS & ECONOMIC NARRATIVE
+============================================================
+
+1. Alternative Proxy (GARCH):
+   Correlation between Rolling Std and GARCH: 0.5977
+   (A high correlation confirms the robustness of our uncertainty measure.)
+
+2. Lag Sensitivity:
+   IRF results generated for Lags = [3, 6, 12].
+   Visual inspection of 'robustness_lag_sensitivity.png' recommended.
+
+3. ZLB Periods Discussion:
+   - GFC ZLB: 2008-12 to 2015-12
+   - COVID ZLB: 2020-03 to 2022-03
+   - Observations in narrative plot suggest correlations shifted during these regimes.

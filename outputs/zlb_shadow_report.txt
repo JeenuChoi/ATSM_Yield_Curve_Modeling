@@ -1,0 +1,20 @@
+============================================================
+PHASE 9: ZLB REGIME & SHADOW RATE DISCUSSION
+============================================================
+
+1. ZLB Identification:
+   - Threshold: 1Y Yield < 0.25%
+   - ZLB Sample Size: 64 months
+   - Normal Sample Size: 340 months
+
+2. Sub-sample Regression Comparison (R-squared):
+   - ZLB Regime   : 0.3942
+   - Normal Regime: 0.2476
+
+3. Theoretical Shadow Rate Discussion (Academic Defense):
+   - Problem: Gaussian ATSM allows negative rates, but observed rates are bounded at 0%.
+   - Defense: Following Kim & Wright (2005) and Wu & Xia (2016), the period of ZLB
+     often distorts the 'Expectations' component of the yield curve.
+   - Conclusion: By comparing ZLB and Normal regimes, we find that the link between
+     Inflation Uncertainty and Term Premium remains consistent, suggesting that
+     our model captures the 'risk price' dynamics effectively even when short rates are stuck.

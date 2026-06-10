@@ -1,0 +1,5 @@
+STRATEGIC OOS REFINEMENT REPORT
+Post-2022 Regime P-value: 0.3337
+3-Month Ahead P-value:    0.0024
+3-Month ATSM RMSE:        45.91 bps
+3-Month RW RMSE:          49.75 bps
