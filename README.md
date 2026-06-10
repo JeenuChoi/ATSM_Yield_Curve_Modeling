@@ -2,7 +2,7 @@
 
 This repository contains a research-grade Python implementation of a no-arbitrage **Gaussian 3-Factor Affine Term Structure Model (ATSM)** for the U.S. Treasury yield curve. It investigates the dynamic interactions between the unobservable yield curve factors (Level, Slope, Curvature) and macroeconomic variables under rigorous statistical and no-arbitrage constraints.
 
-Web Version: [https://jeenuchoi.github.io/vol-integrated-research/]
+Web Version: [https://jeenuchoi.github.io/ATSM_Yield_Curve_Modeling/]
 
 ## 🚀 Key Achievements & Features
 
